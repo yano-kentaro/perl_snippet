@@ -1,0 +1,463 @@
+{
+	"Data::Dumper":{
+		"prefix": "Dumper",
+		"body": "use Data::Dumper;&lib::check(Dumper());",
+		"description": "Dumperの設定"
+	},
+	"libcheck": {
+		"prefix": "lc1",
+		"body": "&lib::check(__FILE__.\":\".__LINE__);",
+		"description": "lib::check"
+	},
+	"libcheck2": {
+		"prefix": "lc2",
+		"body": "&lib::check(__FILE__.\":\".__LINE__.\":\".$$1);",
+		"description": "lib::check2"
+	},
+	"libcheck3": {
+		"prefix": "lc3",
+		"body": "&lib::check(__FILE__.\":\".__LINE__.\":[$1]:[\".$$1.']');",
+		"description": "lib::check3"
+	},
+	"libcheck_line": {
+		"prefix": "lcl",
+		"body": "&lib::check(\"-------------------------------------------------\");",
+		"description": "lib::check_line"
+	},
+	"libcheck_line2": {
+		"prefix": "lcll",
+		"body": "&lib::check(\"=================================================\");",
+		"description": "lib::check_line2"
+	},
+	"libcheck_time": {
+		"prefix": "lct",
+		"body": "&lib::check(__FILE__.\":\".__LINE__.\":[$1]:[\".time.']');",
+		"description": "lib::check_time"
+	},
+	"libcheck_time2": {
+		"prefix": "lctt",
+		"body": "&lib::check(__FILE__.\":\".__LINE__.\":[$1]:[\".$$1.']'.'['.&lib::get_time('','3-3F:/').']');",
+		"description": "lib::check_time2"
+	},
+	"Dumper": {
+		"prefix": "dp",
+		"body": "use Data::Dumper;",
+		"description": "Dumper"
+	},
+	"DumperF": {
+		"prefix": "dpf",
+		"body": [
+			"my $$form = {%FORM};",
+			"&lib::check(__FILE__.\":\".__LINE__.\":\".Dumper($$form));"
+		],
+		"description": "DumperF"
+	},
+	"DumperD": {
+		"prefix": "dpd",
+		"body": "use Data::Dumper;&lib::check(__FILE__.\":\".__LINE__.\":\".Dumper($$data));",
+		"description": "DumperD"
+	},
+	"DumperJ": {
+		"prefix": "dpj",
+		"body": "use Data::Dumper;&lib::check(__FILE__.\":\".__LINE__.\":\".Dumper($$json));",
+		"description": "DumperJ"
+	},
+	"Dumper2": {
+		"prefix": "dp2",
+		"body": "use Data::Dumper;&lib::check(__FILE__.\":\".__LINE__.\":[$1][\\n\".Dumper($1).\"\\n]\");",
+		"description": "Dumper2"
+	},
+	"SELECT": {
+		"prefix": "sel",
+		"body": "my $$sql = qq|SELECT $1 FROM $$tbl{'$2'} WHERE $3|;",
+		"description": "sql-select"
+	},
+	"UPADTE": {
+		"prefix": "upd",
+		"body": "my $$sql = qq|UPDATE $$tbl{'$1'} SET $2|;",
+		"description": "sql-update"
+	},
+	"INSERT": {
+		"prefix": "ins",
+		"body": "my $$sql = qq|INSERT INTO $$tbl{'$1'} ($2) VALUES($3)|;",
+		"description": "sql_insert"
+	},
+	"DELETE": {
+		"prefix": "del",
+		"body": "my $$sql = qq|DELETE FROM $1 WHERE $2|;",
+		"description": "sql_delete"
+	},
+	"GROUP BY": {
+		"prefix": "group",
+		"body": "GROUP BY $1",
+		"description": "sql-group"
+	},
+	"sth": {
+		"prefix": "sth",
+		"body": "my $$sth = &sql::prepare('dbh$1',$$sql);",
+		"description": "sth"
+	},
+	"if": {
+		"prefix": "if",
+		"body": [
+			"if ($1) {",
+			"\t$2",
+			"}"
+		],
+		"description": "if"
+	},
+	"prepare": {
+		"prefix": "pp",
+		"body": "&sql::prepare('dbh$1',$$sql);",
+		"description": "('DB','sql','mode')"
+	},
+	"prepare-while-hash": {
+		"prefix": "ppwh",
+		"body": [
+			"my $$sth = &sql::prepare('dbh',$$sql);",
+			"while (my $$hash = $$sth->fetchrow_hashref) {",
+			"\tmy %$1 = %{$$hash};",
+			"}",
+			"$$sth->finish();"
+		],
+		"description": "('DB','sql','mode')"
+	},
+	"prepare-while-array": {
+		"prefix": "ppwa",
+		"body": [
+			"my $$sth = &sql::prepare('dbh',$$sql);",
+			"while (my ($$1) = $$sth->fetchrow_array) {",
+			"\t$2",
+			"}",
+			"$$sth->finish();"
+		],
+		"description": "('DB','sql','mode')"
+	},
+	"prepare-exe": {
+		"prefix": "ppe",
+		"body": "my ($$1) = &sql::prepare('dbh$2',$$sql,'exe');",
+		"description": "('DB','sql','mode')"
+	},
+	"prepare-exe2": {
+		"prefix": "ppee",
+		"body": "&sql::prepare('dbh$2',$$sql,'exe2');",
+		"description": "('DB','sql','mode')"
+	},
+	"prepare-hash": {
+		"prefix": "pph",
+		"body": "my %$1 = &sql::prepare('dbh$2',$$sql,'hash');",
+		"description": "('DB','sql','mode')"
+	},
+	"msg_box": {
+		"prefix": "mb",
+		"body": "&view::msg_box('msgbox','$1','$2');",
+		"description": "&view::msg_box('msgbox','msgファイル-呼び出すタイトル','ボタンのアクション')"
+	},
+	"stokfile": {
+		"prefix": "sf",
+		"body": [
+			"{#####################################################################################################################",
+			"\tmy $$date_now = lib::get_time('','3-3F:-');",
+			"\t&lib::stokfile('/tmp/dbg.log',\"===========================================================================================\\n\\n\".__FILE__.\":[\".__LINE__.\"]\\t[\".$$date_now.\"]\\n\\n\");",
+			"\t&lib::stokfile('/tmp/dbg.log', \"\\t\".'$$1 = '.$$1.\"\\n\\n\");",
+			"}#####################################################################################################################"
+		],
+		"description": "stokfileのスカラー変数表示"
+	},
+	"check": {
+		"prefix": "ch",
+		"body": [
+			"{#####################################################################################################################",
+			"\tmy $$date_now = lib::get_time('','3-3F:-');",
+			"\t&lib::check(\"==================================================================================================\");",
+			"\t&lib::check();",
+			"\t&lib::check(__FILE__.\":[\".__LINE__.\"]  [\".$$date_now.\"]\");",
+			"\t&lib::check();",
+			"\t&lib::check('$$1 = '.$$1);",
+			"\t&lib::check();",
+			"}#####################################################################################################################"
+		],
+		"description": "checkのスカラー変数表示"
+	},
+	"stokfile_each": {
+		"prefix": "sfe",
+		"body": [
+			"{#####################################################################################################################",
+			"\tmy $$date_now = lib::get_time('','3-3F:-');",
+			"\t&lib::stokfile('/tmp/dbg.log',\"===========================================================================================\\n\\n\".__FILE__.\":[\".__LINE__.\"]\\t[\".$$date_now.\"]\\n\\n\");",
+			"\t&lib::stokfile('/tmp/dbg.log', \"\\t\".'%FORM = {'.\"\\n\");",
+			"\twhile (my ($$key,$$value) = each %FORM) {",
+			"\t\t&lib::stokfile('/tmp/dbg.log',\"\\t  \".$$key.': '.$$value.\",\\n\");",
+			"\t}",
+			"\t&lib::stokfile('/tmp/dbg.log', \"\\t}\\n\\n\");",
+			"}#####################################################################################################################"
+		],
+		"description": "stokfileのハッシュ表示"
+	},
+	"check_array": {
+		"prefix": "cha",
+		"body": [
+			"{#####################################################################################################################",
+			"\t# my @$1 = @{$$1};",
+			"\tmy $$date_now = lib::get_time('','3-3F:-');",
+			"\t&lib::check(\"==================================================================================================\");",
+			"\t&lib::check();",
+			"\t&lib::check(__FILE__.\":[\".__LINE__.\"]  [\".$$date_now.\"]\");",
+			"\t&lib::check();",
+			"\tmy $$i = 0;",
+			"\t&lib::check('@$1 = (');",
+			"\tforeach my $$value (@$1) {",
+			"\t\t&lib::check('　　'.$$i.': '.$$value.',');",
+			"\t\t$$i++;",
+			"\t}",
+			"\t&lib::check('    )');",
+			"\t&lib::check();",
+			"}#####################################################################################################################"
+		],
+		"description": "checkの配列表示"
+	},
+	"check_hash": {
+		"prefix": "che",
+		"body": [
+			"{#####################################################################################################################",
+			"\t# my %$1 = %{$$1};",
+			"\tmy $$date_now = lib::get_time('','3-3F:-');",
+			"\t&lib::check(\"==================================================================================================\");",
+			"\t&lib::check();",
+			"\t&lib::check(__FILE__.\":[\".__LINE__.\"]  [\".$$date_now.\"]\");",
+			"\t&lib::check();",
+			"\t&lib::check('%$1 = {');",
+			"\tforeach $$key (sort keys(%$1)) {",
+			"\t\t&lib::check(\"　　\".$$key.': '.$$1{$$key}.',');",
+			"\t}",
+			"\t&lib::check('    }');",
+			"\t&lib::check();",
+			"}#####################################################################################################################"
+		],
+		"description": "checkのハッシュ表示"
+	},
+	"che2": {
+		"prefix": "che2",
+		"body": [
+			"{#####################################################################################################################",
+			"\t# my %$1 = %{\\$$1};",
+			"\tmy \\$date_now = lib::get_time('','3-3F:-');",
+			"\t&lib::check(\"==================================================================================================\");",
+			"\t&lib::check();",
+			"\t&lib::check(__FILE__.\":[\".__LINE__.\"]  [\".\\$date_now.\"]\");",
+			"\t&lib::check();",
+			"\t&lib::check('%$1 = {');",
+			"\tforeach \\$key (sort keys(%$1)) {",
+			"\t\tmy \\$ref = ref(\\$$1{\\$key});",
+			"\t\tif(\\$ref eq 'HASH') {",
+			"\t\t\t&lib::check('　　'.\\$key.': {');",
+			"\t\t\tmy %$1_key = %{\\$$1{\\$key}};",
+			"\t\t\tforeach \\$key (sort keys(%$1_key)) {",
+			"\t\t\t\t&lib::check('　　　　'.\\$key.\": \\$$1_key{\\$key},\");",
+			"\t\t\t}",
+			"\t\t\t&lib::check('　　},');",
+			"\t\t} elsif (\\$ref eq 'ARRAY') {",
+			"\t\t\t&lib::check('　　'.\\$key.': (');",
+			"\t\t\tmy @$1_key = @{\\$$1{\\$key}};",
+			"\t\t\tmy \\$i = 0;",
+			"\t\t\tforeach \\$value (@$1_key) {",
+			"\t\t\t\t&lib::check('　　　　'.\\$i.\": \\$value,\");",
+			"\t\t\t\t$i++;",
+			"\t\t\t}",
+			"\t\t\t&lib::check('　　),');",
+			"\t\t} else {",
+			"\t\t\t&lib::check('　　　　'.\\$key.\": \\$$1{\\$key}\");",
+			"\t\t}",
+			"\t}",
+			"\t&lib::check('    }');",
+			"\t&lib::check();",
+			"}#####################################################################################################################"
+		],
+		"description": "checkのハッシュを2段階まで表示"
+	},
+	"check_pass": {
+		"prefix": "chp",
+		"body": [
+			"{#####################################################################################################################",
+			"\tmy $$date_now = lib::get_time('','3-3F:-');",
+			"\t&lib::check(\"==================================================================================================\");",
+			"\t&lib::check();",
+			"\t&lib::check(__FILE__.\":[\".__LINE__.\"]  [\".$$date_now.\"]\");",
+			"\t&lib::check();",
+			"\t&lib::check('PASS $1');",
+			"\t&lib::check();",
+			"}#####################################################################################################################"
+		],
+		"description": "通過確認用"
+	},
+	"TODO": {
+		"prefix": "todo",
+		"body": "# TODO:",
+		"description": "todo"
+	},
+	"MEMO": {
+		"prefix": "memo",
+		"body": "# MEMO:",
+		"description": "memo"
+	},
+	"html": {
+		"prefix": "html",
+		"body": "$$html = \"$$CUT[0]$$list$$CUT[-1]\";",
+		"description": "html"
+	},
+	"myhtml@": {
+		"prefix": "saisyo",
+		"body": "my($$html) = @_;",
+		"description": "saisyo"
+	},
+	"split": {
+		"prefix": "spl",
+		"body": "my @CUT = split(/<!-- $1 -->/,$$html);",
+		"description": "split"
+	},
+	"$FORM": {
+		"prefix": "fm",
+		"body": "$$FORM{'$1'}",
+		"description": "form"
+	},
+	"hash to json": {
+		"prefix": "lje",
+		"body": "&lib::json($1,'encode');",
+		"description": "hashからjson"
+	},
+	"json to hash": {
+		"prefix": "ljd",
+		"body": "&lib::json($1,'decode');",
+		"description": "jsonからhash"
+	},
+	"get_code_value": {
+		"prefix": "gcv",
+		"body": "my %$1 = &sql::get_code_value('dbh',$$tbl{'$2'},'$3_code','$4_name');",
+		"description": "value,name"
+	},
+	"make select": {
+		"prefix": "ms",
+		"body": "my $$1 = &sql::make_select('dbh',$$tbl{'$2'},'$3_code','$4_name','$5sort','$5ini','$6wh');",
+		"description": "make_select &sql::make_select('dbh3','table','value','name','sort',$ini,$where,$return);"
+	},
+	"block" : {
+		"prefix": "bl",
+		"body": [
+			"#---------------------------",
+			"# $1",
+			"{",
+			"\t$2",
+			"}"
+		]
+	},
+	"sub" : {
+		"prefix": "sub",
+		"body": [
+			"#-----------------------------------------------------------------------------0",
+			"#\t\t\t\t\t\t\t$1",
+			"#------------------------------------------------------------------┤$2.$3.$4",
+			"sub ${5:routine_name} {",
+			"\t${6:statements}",
+			"}"
+		]
+	},
+	"do nothing": {
+		"prefix": "dn",
+		"body": "# do nothing",
+		"description": "do nothing"
+	},
+	"stokfile-dumper": {
+		"prefix": "sfd",
+		"body": "use Data::Dumper;&lib::stokfile('/tmp/dbg_'.(&lib::get_time('','3-0F:-')).'.log',__FILE__.'['.__LINE__.\"]\".Dumper(%FORM).'['.'time:'.&lib::get_time('','3-3F:-').\"]\\n\");",
+		"description": "stokfile"
+	},
+	"view_cut": {
+		"prefix": "vc",
+		"body": "$$1 = &view::cut($$1,'$2');",
+		"description": "view_cut"
+	},
+	"get_msg": {
+		"prefix": "gm",
+		"body": "&Com::get_msg('$1','$2');",
+		"description": "get_msg('file','key')"
+	},
+	"start_perl":{
+		"prefix": "perl_cgi",
+		"body": [
+			"#!/usr/bin/perl --",
+			"",
+			"use v5.22;",
+			"use strict;",
+			"use diagnostics;",
+			"use Data::Dumper;",
+			"",
+			"$0",
+			"",
+			"exit;"
+		],
+		"description": "perlでcgiを記述する際に記載するプラグマ等一式"
+	},
+	"cgi_html":{
+		"prefix": "html",
+		"body": "print \"Content-Type: text/html;  charset=UTF-8\\n\\n\";",
+		"description": "cgiをhtml出力する場合の記述"
+	},
+	"open_function": {
+		"prefix": "open_function",
+		"body":[
+			"open(${1:fileHandle$0}, \"${2:funcType}\", ${3:fileName});",
+			"flock(${1:fileHandle}, 2);",
+			"",
+			"",
+			"",
+			"close(${1:fileHandle});"
+		],
+		"description": [
+			"funcType ｜",
+			"'<' 読み込み専用 ｜",
+			"'>' 書き込み専用(上書き) ｜",
+			"'>>' 書き込み専用（追加） ｜",
+			"'+>' 読み書き両用 ｜",
+			"'+<' 読み書き両用 "
+		]
+	},
+	"seek_function": {
+		"prefix": "seek_function",
+		"body": "seek(${1:ファイルハンドル$0}, ${2:開始位置}, ${3:startingPoint});",
+		"description": "seek関数の登録　｜　offSet = 0, startingPoint = 0なら先頭から書き込める"
+	},
+	"warn_Dumper":{
+		"prefix": "warn_Dumper",
+		"body": "warn Dumper $0${1:var};",
+		"description": "warn Dumperの登録"
+	},
+	"function_declare":{
+		"prefix": "my",
+		"body": "my $${1:変数名} = ${2:文字列など};",
+		"description": "スカラー関数宣言"
+	},
+	"split関数":{
+		"prefix": "split関数",
+		"body": "my @$0${1:新しい配列名} = split(/${2:区切り文字}/, ${3:対象とする文字列など});",
+		"description": "split関数の登録"
+	},
+	"function_foreach":{
+		"prefix": "foreach_function",
+		"body":[
+			"foreach my $0${1:中で使用するスカラー変数名} (${2:配列名など}) {",
+			"\t${3:statement};",
+			"}"
+		],
+		"description": "foreach関数の登録"
+	},
+	"function_STDIN":{
+		"prefix": "STDIN",
+		"body": "chomp(my $$0${1:変数名} = <STDIN>);",
+		"description": "<STDIN>関数の登録"
+	},
+	"splice関数":{
+		"prefix": "splice",
+		"body": "my $0@${1:新しい配列名} = splice(@${2:対象とする配列名}, ${3:切り取り開始添字}, ${4:切り取る要素数}, ${5:置換リスト});",
+		"description": "splice関数"
+	}
+}
